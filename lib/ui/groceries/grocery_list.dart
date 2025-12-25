@@ -43,12 +43,6 @@ class _GroceryListState extends State<GroceryList> {
           actions: [
             IconButton(onPressed: onCreate, icon: const Icon(Icons.add)),
           ],
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.local_grocery_store), text: 'Groceries'),
-              Tab(icon: Icon(Icons.search), text: 'Search'),
-            ],
-          ),
         ),
         body: TabBarView(
           children: [
@@ -60,6 +54,16 @@ class _GroceryListState extends State<GroceryList> {
             ),
             Column(
               children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredGroceries.length,
+                    itemBuilder: (context, index) {
+                      return GroceryTile(
+                        grocery: filteredGroceries[index],
+                      );
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(12),
                   child: TextField(
@@ -74,19 +78,18 @@ class _GroceryListState extends State<GroceryList> {
                     },
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: filteredGroceries.length,
-                    itemBuilder: (context, index) {
-                      return GroceryTile(
-                        grocery: filteredGroceries[index],
-                      );
-                    },
-                  ),
-                ),
               ],
             ),
           ],
+        ),
+        bottomNavigationBar: Material(
+          color: Theme.of(context).primaryColor,
+          child: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.local_grocery_store), text: 'Groceries'),
+              Tab(icon: Icon(Icons.search), text: 'Search'),
+            ],
+          ),
         ),
       ),
     );
